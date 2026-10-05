@@ -231,3 +231,33 @@ describe("Google Drive video embedding", () => {
     ).toBe(true);
   });
 });
+
+describe("Wordwall whitelist boundary", () => {
+  it("should allow the exact Wordwall URL", () => {
+    expect(
+      embeddableURLValidator(
+        "https://wordwall.net/ru/embed/8c75f257e076416f86d5dda0dfd57d67?themeId=45&templateId=72&fontStackId=0",
+        undefined,
+      ),
+    ).toBe(true);
+  });
+
+  it("should allow the www variant of Wordwall URL", () => {
+    expect(
+      embeddableURLValidator(
+        "https://www.wordwall.net/ru/embed/8c75f257e076416f86d5dda0dfd57d67",
+        undefined,
+      ),
+    ).toBe(true);
+  });
+
+  it("should reject a lookalike domain", () => {
+    expect(
+      embeddableURLValidator(
+        "https://wordwall.net.example.com/ru/embed/test",
+        undefined,
+      ),
+    ).toBe(false);
+  });
+});
+
